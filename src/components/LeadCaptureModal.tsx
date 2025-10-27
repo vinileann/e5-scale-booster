@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LeadCaptureModalProps {
   open: boolean;
@@ -89,14 +90,20 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
     setLoading(true);
 
     try {
-      // Simulating API call - Replace with actual backend integration
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const { error } = await supabase.from("leads").insert([
+        {
+          nome: formData.businessName,
+          telefone: formData.phone,
+          email: formData.email,
+          segmento: formData.segment,
+          aceite_lgpd: formData.lgpdAccepted,
+        },
+      ]);
 
-      console.log("Lead captured:", formData);
+      if (error) throw error;
 
-      toast({
-        title: "Proposta Enviada! 🎉",
-        description: "Em breve nossa equipe entrará em contato com você.",
+      toast.success("Proposta Enviada! 🎉", {
+        description: "Nossa equipe entrará em contato em até 24h para agendar seu diagnóstico gratuito.",
       });
 
       // Reset form
@@ -109,10 +116,9 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
       });
       onOpenChange(false);
     } catch (error) {
-      toast({
-        title: "Erro ao enviar",
+      console.error("Error submitting lead:", error);
+      toast.error("Erro ao enviar", {
         description: "Tente novamente mais tarde.",
-        variant: "destructive",
       });
     } finally {
       setLoading(false);
@@ -127,7 +133,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
             Receba sua Proposta Personalizada
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Preencha os dados abaixo e descubra como podemos escalar seu negócio
+            Preencha os dados e nossa equipe entrará em contato em até 24h para agendar seu diagnóstico gratuito
           </DialogDescription>
         </DialogHeader>
 
@@ -245,7 +251,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
                 Enviando...
               </>
             ) : (
-              "Receber Proposta Personalizada"
+              "Solicitar Diagnóstico Gratuito"
             )}
           </Button>
         </form>

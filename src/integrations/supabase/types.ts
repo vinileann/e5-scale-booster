@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          aceite_lgpd: boolean | null
+          contatado: boolean | null
+          data_cadastro: string
+          data_ultimo_contato: string | null
+          email: string
+          id: string
+          nome: string
+          observacoes: string | null
+          origem: string | null
+          segmento: string
+          status: string | null
+          telefone: string
+        }
+        Insert: {
+          aceite_lgpd?: boolean | null
+          contatado?: boolean | null
+          data_cadastro?: string
+          data_ultimo_contato?: string | null
+          email: string
+          id?: string
+          nome: string
+          observacoes?: string | null
+          origem?: string | null
+          segmento: string
+          status?: string | null
+          telefone: string
+        }
+        Update: {
+          aceite_lgpd?: boolean | null
+          contatado?: boolean | null
+          data_cadastro?: string
+          data_ultimo_contato?: string | null
+          email?: string
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          origem?: string | null
+          segmento?: string
+          status?: string | null
+          telefone?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

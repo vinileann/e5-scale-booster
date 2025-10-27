@@ -79,11 +79,15 @@ export function Footer({ onOpenLeadModal }: FooterProps) {
             <ul className="space-y-3">
               <li className="flex items-center text-muted-foreground">
                 <Mail className="w-5 h-5 mr-3 text-primary" />
-                <span>contato@e5digital.com.br</span>
+                <a href="mailto:e5.techscale@gmail.com" className="hover:text-primary transition-colors">
+                  e5.techscale@gmail.com
+                </a>
               </li>
               <li className="flex items-center text-muted-foreground">
                 <Phone className="w-5 h-5 mr-3 text-primary" />
-                <span>(11) 99999-9999</span>
+                <a href="tel:+5562995168118" className="hover:text-primary transition-colors">
+                  (62) 99516-8118
+                </a>
               </li>
             </ul>
             
@@ -106,6 +110,23 @@ export function Footer({ onOpenLeadModal }: FooterProps) {
             </div>
           </div>
         </div>
+
+        {/* Admin Access Button */}
+        <a
+          href="/admin/login"
+          className="fixed bottom-6 right-6 w-10 h-10 rounded-full bg-muted/50 hover:bg-primary/20 flex items-center justify-center transition-all duration-300 group z-50"
+          aria-label="Admin Access"
+        >
+          <svg 
+            className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2"
+          >
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+          </svg>
+        </a>
       </div>
 
       {/* Bottom Bar */}

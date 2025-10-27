@@ -23,7 +23,7 @@ const benefits = [
   {
     icon: Bot,
     title: "Inteligência Artificial",
-    description: "Use IA para atender clientes 24/7 e qualificar leads automaticamente",
+    description: "Faça o diagnóstico do seu negócio e entenda onde a IA pode fazer a diferença",
     color: "text-primary",
   },
 ];

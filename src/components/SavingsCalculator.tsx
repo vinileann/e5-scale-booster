@@ -20,12 +20,12 @@ interface SavingsCalculatorProps {
 
 export function SavingsCalculator({ onOpenLeadModal }: SavingsCalculatorProps) {
   const [formData, setFormData] = useState({
-    employees: 1,
-    avgSalary: 3000,
-    workHours: 8,
-    timesPerDay: 10,
+    employees: "",
+    avgSalary: "",
+    workHours: "",
+    timesPerDay: "",
     activity: "",
-    timePerExecution: 5,
+    timePerExecution: "",
   });
 
   const [result, setResult] = useState<CalculatorResult | null>(null);
@@ -37,13 +37,30 @@ export function SavingsCalculator({ onOpenLeadModal }: SavingsCalculatorProps) {
     }).format(value);
   };
 
+  const formatCurrencyInput = (value: string): string => {
+    const numbers = value.replace(/\D/g, "");
+    const amount = Number(numbers) / 100;
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(amount);
+  };
+
   const handleInputChange = (field: string, value: string | number) => {
     setFormData({ ...formData, [field]: value });
     setResult(null);
   };
 
   const calculateSavings = () => {
-    const { employees, avgSalary, workHours, timesPerDay, timePerExecution } = formData;
+    const employees = Number(formData.employees) || 0;
+    const avgSalary = Number(formData.avgSalary.replace(/\D/g, "")) / 100 || 0;
+    const workHours = Number(formData.workHours) || 0;
+    const timesPerDay = Number(formData.timesPerDay) || 0;
+    const timePerExecution = Number(formData.timePerExecution) || 0;
+
+    if (!employees || !avgSalary || !workHours || !timesPerDay || !timePerExecution) {
+      return;
+    }
 
     // Total daily time in minutes
     const totalDailyMinutes = timesPerDay * timePerExecution * employees;
@@ -100,8 +117,9 @@ export function SavingsCalculator({ onOpenLeadModal }: SavingsCalculatorProps) {
                   id="employees"
                   type="number"
                   min="1"
+                  placeholder="0"
                   value={formData.employees}
-                  onChange={(e) => handleInputChange("employees", parseInt(e.target.value) || 1)}
+                  onChange={(e) => handleInputChange("employees", e.target.value)}
                 />
               </div>
 
@@ -109,11 +127,13 @@ export function SavingsCalculator({ onOpenLeadModal }: SavingsCalculatorProps) {
                 <Label htmlFor="avgSalary">Média salarial mensal (R$)</Label>
                 <Input
                   id="avgSalary"
-                  type="number"
-                  min="0"
-                  step="100"
+                  type="text"
+                  placeholder="R$ 0,00"
                   value={formData.avgSalary}
-                  onChange={(e) => handleInputChange("avgSalary", parseInt(e.target.value) || 0)}
+                  onChange={(e) => {
+                    const formatted = formatCurrencyInput(e.target.value);
+                    handleInputChange("avgSalary", formatted);
+                  }}
                 />
               </div>
 
@@ -124,8 +144,9 @@ export function SavingsCalculator({ onOpenLeadModal }: SavingsCalculatorProps) {
                   type="number"
                   min="1"
                   max="12"
+                  placeholder="0"
                   value={formData.workHours}
-                  onChange={(e) => handleInputChange("workHours", parseInt(e.target.value) || 8)}
+                  onChange={(e) => handleInputChange("workHours", e.target.value)}
                 />
               </div>
 
@@ -135,8 +156,9 @@ export function SavingsCalculator({ onOpenLeadModal }: SavingsCalculatorProps) {
                   id="timesPerDay"
                   type="number"
                   min="1"
+                  placeholder="0"
                   value={formData.timesPerDay}
-                  onChange={(e) => handleInputChange("timesPerDay", parseInt(e.target.value) || 1)}
+                  onChange={(e) => handleInputChange("timesPerDay", e.target.value)}
                 />
               </div>
 
@@ -156,8 +178,9 @@ export function SavingsCalculator({ onOpenLeadModal }: SavingsCalculatorProps) {
                   id="timePerExecution"
                   type="number"
                   min="1"
+                  placeholder="0"
                   value={formData.timePerExecution}
-                  onChange={(e) => handleInputChange("timePerExecution", parseInt(e.target.value) || 1)}
+                  onChange={(e) => handleInputChange("timePerExecution", e.target.value)}
                 />
               </div>
             </div>
