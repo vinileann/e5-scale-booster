@@ -30,7 +30,7 @@ export function HeroSection({ onOpenLeadModal }: HeroSectionProps) {
 
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Soluções digitais inteligentes para impulsionar seu negócio com automação,
-            dados organizados e landing pages de alta conversão
+            dados organizados, páginas de alta conversão e IA's assistentes.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
