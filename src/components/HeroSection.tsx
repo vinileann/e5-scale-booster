@@ -8,7 +8,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ onOpenLeadModal }: HeroSectionProps) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-hero-gradient pt-16">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
@@ -46,7 +46,7 @@ export function HeroSection({ onOpenLeadModal }: HeroSectionProps) {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-12 border-t border-border/50">
+          <div className="grid grid-cols-2 gap-8 max-w-xl mx-auto pt-12 border-t border-border/50">
             <div className="space-y-1">
               <p className="text-3xl md:text-4xl font-bold text-primary">70%</p>
               <p className="text-sm text-muted-foreground">Menos Tempo em Tarefas</p>
@@ -54,10 +54,6 @@ export function HeroSection({ onOpenLeadModal }: HeroSectionProps) {
             <div className="space-y-1">
               <p className="text-3xl md:text-4xl font-bold text-primary">24/7</p>
               <p className="text-sm text-muted-foreground">Automação Ativa</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-3xl md:text-4xl font-bold text-primary">100+</p>
-              <p className="text-sm text-muted-foreground">Empresas Atendidas</p>
             </div>
           </div>
         </div>

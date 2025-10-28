@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,7 +18,7 @@ interface FormData {
   phone: string;
   email: string;
   segment: string;
-  lgpdAccepted: boolean;
+  customSegment: string;
 }
 
 const businessSegments = [
@@ -37,7 +36,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
     phone: "",
     email: "",
     segment: "",
-    lgpdAccepted: false,
+    customSegment: "",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
@@ -74,8 +73,8 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
       newErrors.segment = "Segmento é obrigatório";
     }
 
-    if (!formData.lgpdAccepted) {
-      newErrors.lgpdAccepted = "Você precisa aceitar receber contato";
+    if (formData.segment === "Outro" && !formData.customSegment.trim()) {
+      newErrors.customSegment = "Por favor, especifique o segmento";
     }
 
     setErrors(newErrors);
@@ -95,8 +94,8 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
           nome: formData.businessName,
           telefone: formData.phone,
           email: formData.email,
-          segmento: formData.segment,
-          aceite_lgpd: formData.lgpdAccepted,
+          segmento: formData.segment === "Outro" ? formData.customSegment : formData.segment,
+          aceite_lgpd: true,
         },
       ]);
 
@@ -112,7 +111,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
         phone: "",
         email: "",
         segment: "",
-        lgpdAccepted: false,
+        customSegment: "",
       });
       onOpenChange(false);
     } catch (error) {
@@ -197,8 +196,8 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
             <Select
               value={formData.segment}
               onValueChange={(value) => {
-                setFormData({ ...formData, segment: value });
-                setErrors({ ...errors, segment: "" });
+                setFormData({ ...formData, segment: value, customSegment: "" });
+                setErrors({ ...errors, segment: "", customSegment: "" });
               }}
             >
               <SelectTrigger className={errors.segment ? "border-destructive" : ""}>
@@ -217,25 +216,24 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
             )}
           </div>
 
-          <div className="flex items-start space-x-2">
-            <Checkbox
-              id="lgpd"
-              checked={formData.lgpdAccepted}
-              onCheckedChange={(checked) => {
-                setFormData({ ...formData, lgpdAccepted: checked as boolean });
-                setErrors({ ...errors, lgpdAccepted: "" });
-              }}
-              className={errors.lgpdAccepted ? "border-destructive" : ""}
-            />
-            <Label
-              htmlFor="lgpd"
-              className="text-sm leading-tight cursor-pointer text-muted-foreground"
-            >
-              Aceito receber contato da E5 Digital Scaling
-            </Label>
-          </div>
-          {errors.lgpdAccepted && (
-            <p className="text-sm text-destructive">{errors.lgpdAccepted}</p>
+          {/* Custom Segment Field - Shows when "Outro" is selected */}
+          {formData.segment === "Outro" && (
+            <div className="space-y-2">
+              <Label htmlFor="customSegment">Qual o seu segmento?</Label>
+              <Input
+                id="customSegment"
+                value={formData.customSegment}
+                onChange={(e) => {
+                  setFormData({ ...formData, customSegment: e.target.value });
+                  setErrors({ ...errors, customSegment: "" });
+                }}
+                className={errors.customSegment ? "border-destructive" : ""}
+                placeholder="Digite o segmento do seu negócio"
+              />
+              {errors.customSegment && (
+                <p className="text-sm text-destructive">{errors.customSegment}</p>
+              )}
+            </div>
           )}
 
           <Button
