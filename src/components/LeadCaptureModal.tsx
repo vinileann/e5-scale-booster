@@ -126,7 +126,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] bg-card border-border">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto bg-card border-border">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-foreground">
             Receba sua Proposta Personalizada
@@ -136,7 +136,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4 pb-4">
           <div className="space-y-2">
             <Label htmlFor="businessName">Nome do Negócio ou Pessoa</Label>
             <Input
@@ -148,6 +148,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
               }}
               className={errors.businessName ? "border-destructive" : ""}
               placeholder="Ex: Clínica Sorrir Bem"
+              autoComplete="organization"
             />
             {errors.businessName && (
               <p className="text-sm text-destructive">{errors.businessName}</p>
@@ -167,6 +168,8 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
               className={errors.phone ? "border-destructive" : ""}
               placeholder="(11) 99999-9999"
               maxLength={15}
+              inputMode="tel"
+              autoComplete="tel"
             />
             {errors.phone && (
               <p className="text-sm text-destructive">{errors.phone}</p>
@@ -185,6 +188,7 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
               }}
               className={errors.email ? "border-destructive" : ""}
               placeholder="contato@empresa.com.br"
+              autoComplete="email"
             />
             {errors.email && (
               <p className="text-sm text-destructive">{errors.email}</p>
@@ -236,22 +240,24 @@ export function LeadCaptureModal({ open, onOpenChange }: LeadCaptureModalProps) 
             </div>
           )}
 
-          <Button
-            type="submit"
-            variant="cta"
-            size="lg"
-            className="w-full"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin" />
-                Enviando...
-              </>
-            ) : (
-              "Solicitar Diagnóstico Gratuito"
-            )}
-          </Button>
+          <div className="sticky bottom-0 bg-card pt-4 mt-6">
+            <Button
+              type="submit"
+              variant="cta"
+              size="lg"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                "Solicitar Diagnóstico Gratuito"
+              )}
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
