@@ -41,6 +41,11 @@ export function Footer({ onOpenLeadModal }: FooterProps) {
             <p className="text-muted-foreground">
               Escale seu negócio com soluções digitais inteligentes e IA aplicadas
             </p>
+            <a
+              href="/admin/login"
+              className="inline-block w-3 h-3 rounded-full bg-[#dc2626] opacity-30 hover:opacity-60 transition-opacity duration-300"
+              aria-label="Acesso Admin"
+            />
           </div>
 
           {/* Quick Links */}
@@ -128,12 +133,6 @@ export function Footer({ onOpenLeadModal }: FooterProps) {
           </svg>
         </a>
 
-        {/* Admin Access Button - Círculo vermelho discreto */}
-        <a
-          href="/admin/login"
-          className="fixed bottom-24 right-6 w-10 h-10 rounded-full bg-[#dc2626] transition-opacity duration-300 z-50 opacity-20 hover:opacity-40"
-          aria-label="Acesso Admin"
-        />
       </div>
 
       {/* Bottom Bar */}
